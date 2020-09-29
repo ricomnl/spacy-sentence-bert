@@ -95,6 +95,11 @@ configs = {
         'dimensions': 1024,
         'name': 'xlm-r-large-en-ko-nli-ststb'
     },
+    'en_gsarti_biobert-nli': {
+        'spacy_base_model': 'en',
+        'dimensions': 1536,
+        'name': 'gsarti/biobert-nli'
+    },
 }
 
 def create_lang(model_name):

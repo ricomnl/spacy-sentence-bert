@@ -1,7 +1,7 @@
 import spacy
 
 from spacy.tokens import Doc, Span, Token
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, models
 
 class SentenceBert(object):
 
@@ -28,10 +28,26 @@ class SentenceBert(object):
         doc.user_token_hooks["vector"] = lambda a: a._.sentence_bert
         return doc
 
+    @staticmethod
+    def get_sentence_transformer(name):
+        try:
+            model = SentenceTransformer(name)
+        except:
+            transformer_model = models.Transformer(name)
+
+            # Apply mean pooling to get one fixed sized sentence vector
+            pooling_model = models.Pooling(transformer_model.get_word_embedding_dimension(),
+                                           pooling_mode_mean_tokens=True,
+                                           pooling_mode_cls_token=True,
+                                           pooling_mode_max_tokens=False)
+
+            model = SentenceTransformer(modules=[transformer_model, pooling_model])
+
+        return model
 
     @staticmethod
     def create_nlp(config, nlp=None):
-        model = SentenceTransformer(config['name'])
+        model = SentenceBert.get_sentence_transformer(config['name'])
 
         def add_model_to_doc(doc):
             doc._.sentence_bert_model = model
