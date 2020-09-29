@@ -95,7 +95,7 @@ configs = {
         'dimensions': 1024,
         'name': 'xlm-r-large-en-ko-nli-ststb'
     },
-    'en_gsarti_biobert-nli': {
+    'en_gsarti_biobert_nli': {
         'spacy_base_model': 'en',
         'dimensions': 1536,
         'name': 'gsarti/biobert-nli'
